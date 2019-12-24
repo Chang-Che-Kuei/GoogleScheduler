@@ -1,0 +1,77 @@
+{% load my_filters %} {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Event List</title>
+    <!-- style -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/component.css' %}">
+    <!-- js -->
+    <script>
+        function Redirect() {
+            window.location = "{% url 'eventList' %}";
+        }
+
+        $(function() {
+            $('td:first-child input').change(function() {
+                $(this).closest('tr').toggleClass("checked", this.checked);
+            });
+            $("input:checkbox").on("change", function() {
+                $(this).closest('tr').children().last().children().prop("disabled", $(this).prop("checked"));
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="sidebar">
+        <a href="{% url 'home' %}"><img id="headshot" src="{{img.url}}" alt="headshot"></a><br>
+        <h1>{{user}}</h1><br>
+        <h3><a href="{% url 'profile' %}">Profile</a></h3>
+        <h3><a href="{% url 'summary' %}">Summary</a></h3>
+        <h3><a href="{% url 'setting' %}">Setting</a></h3>
+    </div>
+
+    <div id="eventList">
+        <h2>Event List</h2>
+        <p>Date:
+            <script>
+                document.write(new Date().toLocaleDateString());
+            </script>
+        </p><br>
+
+        <form action="" method="post">
+            {% csrf_token %}
+            <table id="eventTable" width="60%">
+                {% for event in events %}
+                <tr>
+                    <td><input type="checkbox" name="finishedEvent" value="{{ event|lookup:'id' }}"></td>
+                    <td>{{ event|lookup:'eventName' }}</td>
+                    <td>{{ event|lookup:'startTime' }} - {{ event|lookup:'endTime' }}</td>
+                    {% if event|lookup:'eventType' %}
+                    <div>
+                        <td>remain <input class="number" type="number" name="remainHour" min=0 step=0.25> hr(s)</td>
+                    </div>
+                    {% else %} {% endif %}
+                </tr>
+                {% endfor %}
+            </table><br>
+            <div>{{error}}</div>
+            <div id="list_btn">
+                <input class="btn btn-sm" type="reset" value="Reset" onclick="Redirect()">&emsp;
+                <input class="btn btn-sm" type="submit" value="Save">
+            </div>
+        </form>
+
+    </div>
+
+</body>
+
+</html>

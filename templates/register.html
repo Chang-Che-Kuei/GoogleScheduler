@@ -1,0 +1,81 @@
+{% load static %} {% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Register</title>
+    <!-- style -->
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/clean-blog.min.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url({% static 'img/home-bg.jpg' %})">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="site-heading ">
+                        <h1>Event Scheduler</h1>
+                        <span class="subheading ">A Time-Management and Scheduling Calendar</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div style="float:left; width:20%; margin-left: 20%;">
+            <form action="{% url 'register' %}" method="POST">
+                {% csrf_token %}
+                <h2 style="text-align: center; margin-bottom: 15px;">Sign up</h2>
+                <div class="field">
+                    <label for="{{ form.username.id_for_label }}" class="label">
+                      Username
+                    </label>
+                    <div class="control">
+                        {{ form.username|add_class:"input" }}
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="{{ form.password1.id_for_label }}" class="label">
+                      Password
+                    </label>
+                    <div class="control">
+                        {{ form.password1|add_class:"input" }}
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="{{ form.password2.id_for_label }}" class="label">
+                      Comfirm Password
+                    </label>
+                    <div class="control">
+                        {{ form.password2|add_class:"input" }}
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control" style="margin-top: 10px; text-align: center">
+                        <button class="btn" style="background-color: lightgray; padding: 5px 10px;">Register</button>
+                    </div>
+            </form>
+            </div>
+            <p style="margin-top: 15px; text-align: center; font-size: 16px; ">Already have an account? <a href=" {% url 'login' %} ">Sign in</a></p>
+        </div>
+        <div style="float:right;width:55%; margin-top: 6%;">
+            <p class="help is-danger ">{{ form.username.errors }}</p>
+            <p class="help is-danger ">{{ form.password1.errors }}</p>
+            <p class="help is-danger ">{{ form.password2.errors }}</p>
+        </div>
+    </div>
+</body>
+
+</html>

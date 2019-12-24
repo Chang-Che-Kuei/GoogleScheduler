@@ -1,0 +1,134 @@
+/* intro */
+
+#intro_content {
+    margin: 4% 20%;
+    line-height: 23px
+}
+
+#intro_content a {
+    color: black;
+    text-decoration: none;
+}
+
+
+/* register, login */
+
+#form {
+    margin: 10% 40%;
+    padding: 0% 3%;
+    line-height: 23px
+}
+
+#forgetPsd {
+    text-align: right;
+    margin-top: -10px;
+    margin-right: 5px;
+}
+
+
+/* home */
+
+#sidebar {
+    float: left;
+    position: fixed;
+    padding-top: 5%;
+    width: 25%;
+    height: auto;
+    text-align: center;
+}
+
+#headshot {
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+}
+
+#topbar {
+    padding-top: 2.5%;
+    padding-right: 8%;
+    width: 70%;
+    float: right;
+    text-align: right;
+}
+
+#content {
+    width: 72%;
+    float: right;
+    text-align: left;
+}
+
+#content2 {
+    padding-top: 1%;
+    width: 70%;
+    float: right;
+    text-align: left;
+}
+
+
+/* profile */
+
+#p_h2 {
+    padding: 0% 7%;
+}
+
+#p_btn {
+    padding: 1% 7%;
+}
+
+
+/* setting */
+
+#s_btn {
+    padding-left: 55%;
+}
+
+
+/* create event */
+
+#createEvent {
+    padding-top: 6%;
+    width: 70%;
+    float: right;
+    text-align: left;
+}
+
+#createEvent2 {
+    padding-top: 4%;
+    width: 70%;
+    float: right;
+    text-align: left;
+}
+
+#c_btn {
+    padding-left: 10%;
+}
+
+#c_table {
+    width: 90%;
+}
+
+#c_table tr {
+    height: 40px;
+}
+
+#c_btn2 {
+    padding-left: 15%;
+}
+
+
+/* event list */
+
+#eventList {
+    padding-top: 6%;
+    width: 70%;
+    float: right;
+    text-align: left;
+}
+
+#list_btn {
+    padding-left: 20%;
+}
+
+#eventTable {
+    width: 60%
+}

@@ -1,0 +1,56 @@
+{% load my_filters %} {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Create Small Event</title>
+    <!-- style -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/component.css' %}">
+    <!-- js -->
+    <script>
+        function checkTime() {
+            var startTime = document.getElementById("startTime").value;
+            var endTime = document.getElementById("endTime").value;
+            if (startTime >= endTime) {
+                alert("Please check event time input.")
+                return false;
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div id="sidebar">
+        <a href="{% url 'home' %}"><img id="headshot" src="{{img.url}}" alt="headshot"></a><br>
+        <h1>{{user}}</h1><br>
+        <h3><a href="{% url 'profile' %}">Profile</a></h3>
+        <h3><a href="{% url 'summary' %}">Summary</a></h3>
+        <h3><a href="{% url 'setting' %}">Setting</a></h3>
+    </div>
+
+    <div id="createEvent2">
+        <form action="{% url 'editSmallEvent' event_id=event|lookup:'id' %}" method="post" onsubmit="return checkTime()">
+            {% csrf_token %}
+            <h2>Edit Small Event</h2>
+            <p>Event Name*: <input type="text" name="eventName" value="{{event|lookup:'eventName'}}" required></p>
+            <p>Description:<br><textarea name="description" rows="3" cols="35">{{event|lookup:'description'}}</textarea></p><br>
+            <p><strong>Event Time</strong></p>
+            <p>Start Time*: <input type="datetime-local" name="startTime" id="startTime" value="{{event|lookup:'start_dateTime'}}" required></p>
+            <p>End Time*:&nbsp;&nbsp; <input type="datetime-local" name="endTime" id="endTime" value="{{event|lookup:'end_dateTime'}}" required></p><br>
+            <p>Location: <input type="text" name="location"></p><br>
+            <div>{{error}}</div>
+            <div id="c_btn2">
+                <input class="btn btn-sm" type="submit" value="Save">
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

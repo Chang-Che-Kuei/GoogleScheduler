@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Profile</title>
+    <!-- style -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/component.css' %}">
+    <!-- js -->
+    <script>
+        function deleteAccount() {
+            if (confirm("Are you sure?")) {
+                alert("Your account has been deleted.");
+                // need to logout, direct to the eventScheduler.html
+            }
+        }
+
+        function checkInput() {
+            var f = document.getElementById("photo");
+            var re = /\.(jfif|pjpeg|jpeg|pjp|jpg|png)$/i;
+            if (f.value != "" && !re.test(f.value)) {
+                alert("Only accept .jpeg or .png file.");
+                return false;
+            }
+
+            var password = document.getElementById("password").value;
+            var confirmpsd = document.getElementById("confirmpsd").value;
+            if (password.length < 8) {
+                alert("This password is too short. It must contain at least 8 characters.");
+                return false;
+            }
+            if (password != confirmpsd) {
+                alert("Inconsistent password.");
+                return false;
+            }
+        }
+    </script>
+</head>
+
+
+<body>
+    <div id="sidebar">
+        <!-- <a href="{% url 'home' %}"><img id="headshot" src="{% static 'img/photo1.jpg' %}" alt="headshot"></a><br> -->
+        <a href="{% url 'home' %}"><img id="headshot" src="{{ img.url }}" alt="headshot"></a><br>
+        <h1>{{user}}</h1><br>
+        <h3><a href="{% url 'profile' %}">Profile</a></h3>
+        <h3><a href="{% url 'summary' %}">Summary</a></h3>
+        <h3><a href="{% url 'setting' %}">Setting</a></h3>
+    </div>
+
+    <div id="topbar">
+        <p><a href="{% url 'login' %}">Sign Out</a></p>
+    </div>
+
+    <div id="content2">
+        <div id="profile">
+            <h2 id="p_h2">Hello, {{user}}</h2><br>
+            <form action="/update_profile/" method="post" enctype="multipart/form-data" onsubmit="return checkInput()">
+                {% csrf_token %}
+                <p>Change Photo: <input type="file" name="photo" id="photo" accept="image/jpeg, image/png"></p>
+                <p>Change Nickname: <input type="text" name="nickname"></p>
+                <p>Change Password:&nbsp; <input type="password" name="password" id="password"></p>
+                <p>Confirm Password: <input type="password" name="confirmpsd" id="confirmpsd"></p><br>
+                <div id="p_btn">
+                    <button class="btn btn-sm" type="button" onclick="deleteAccount()">Delete Account</button>&emsp;
+                    <input class="btn btn-sm" type="submit" value="Save">
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

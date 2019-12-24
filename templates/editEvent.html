@@ -1,0 +1,90 @@
+{% load my_filters %} {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit Event</title>
+    <!-- style -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/component.css' %}">
+    <!-- date range picker -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <!-- js -->
+    <script>
+        $(function() {
+            $('input[name="date"]').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true
+            });
+        });
+
+        // {% csrf_token %}
+        function deleteEvent(r) {
+            var id = r.getAttribute('value');
+            var eventType = r.getAttribute('value2');
+            if (confirm("Are you sure you want to delete this event?\nThis action cannot be undone.")) {
+                if (eventType == 0) {
+                    var URL = "/deleteSmallEvent/";
+                }
+                if (eventType == 1) {
+                    var URL = "/deleteBigEvent/";
+                }
+                //URL = "/deleteSmallEvent/";
+                URL2 = URL + id.toString();
+                location.href = URL2;
+                // $.post(URL, {'id': id.toString(), 'csrfmiddlewaretoken':csrftoken});
+                alert("Successfully deleted.");
+                window.location = "/editEvent/";
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div id="sidebar">
+        <a href="{% url 'home' %}"><img id="headshot" src="{{img.url}}" alt="headshot"></a><br>
+        <h1>{{user}}</h1><br>
+        <h3><a href="{% url 'profile' %}">Profile</a></h3>
+        <h3><a href="{% url 'summary' %}">Summary</a></h3>
+        <h3><a href="{% url 'setting' %}">Setting</a></h3>
+    </div>
+
+    <div id="eventList">
+        <h2>Edit Event</h2>
+        <form action="{% url 'editEvent' %}" method="post">
+            {% csrf_token %}
+            <p>Date:
+                <input class="date" type="text" name="date" />&ensp;
+                <input class="btn btn-xs" type="submit" value="Submit">
+            </p><br>
+        </form>
+
+        <table id="eventTable">
+            {% csrf_token %} {% for event in events %}
+            <tr>
+                {% if event|lookup:'eventType' %}
+                <td><a href="{% url 'editBigEvent' event_id=event|lookup:'id' %}">{{ event|lookup:'eventName' }}</a></td>
+                {% else %}
+                <td><a href="{% url 'editSmallEvent' event_id=event|lookup:'id' %}">{{ event|lookup:'eventName' }}</a></td>
+                {% endif %}
+                <td>{{ event|lookup:'startTime' }} - {{ event|lookup:'endTime' }}</td>
+                <td><a href="javascript:void(0);" onclick="deleteEvent(this)" value="{{event|lookup:'id'}}" value2="{{event|lookup:'eventType'}}"><i class="fa fa-trash"></i></a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</body>
+
+</html>

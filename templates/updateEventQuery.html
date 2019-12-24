@@ -1,0 +1,45 @@
+{% load my_filters %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Create Small Event</title>
+    <!-- style -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/component.css' %}">
+    <!-- js -->
+</head>
+
+<body>
+    <div id="sidebar">
+        <a href="{% url 'home' %}"><img id="headshot" src="{{img.url}}" alt="headshot"></a><br>
+        <h1>{{user}}</h1><br>
+        <h3><a href="{% url 'profile' %}">Profile</a></h3>
+        <h3><a href="{% url 'summary' %}">Summary</a></h3>
+        <h3><a href="{% url 'setting' %}">Setting</a></h3>
+    </div>
+
+    <div id="createEvent2">
+        <form action="{% url 'updateEventQuery' %}" method="post" onsubmit="return checkTime()">
+            {% csrf_token %}
+            <h2>Small Event / <a href="{% url 'createBigEvent' %}">Big Event</a></h2>
+            <p><strong>Event Date Query</strong></p>
+            <p>Start Time*: <input type="datetime-local" name="startTime" id="startTime" required></p>
+            <div id="c_btn2">
+                <input class="btn btn-sm" type="submit" value="Create">
+            </div>
+        </form>
+        {% for event in events %}
+            <li>{{ event|lookup:'eventName' }}  {{ event|lookup:'eventType' }}</li>
+        {% endfor %}
+    </div>
+</body>
+
+</html>

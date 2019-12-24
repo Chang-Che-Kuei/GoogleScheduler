@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Event Scheduler</title>
+    <!-- style -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/component.css' %}">
+</head>
+
+<body>
+    <div id="sidebar">
+        <a href="{% url 'home' %}"><img id="headshot" src="{{img.url}}" alt="headshot"></a><br>
+        <h1>{{user}}</h1><br>
+        <h3><a href="{% url 'profile' %}">Profile</a></h3>
+        <h3><a href="{% url 'summary' %}">Summary</a></h3>
+        <h3><a href="{% url 'setting' %}">Setting</a></h3>
+    </div>
+
+    <div id="createEvent">
+        <h3>Choose the event type</h3><br>
+        <p>
+            <ul>
+                <li>Small Event<br>The event which is a routine or does not need to prepare,<br>such as shopping, exercising, etc.</li><br>
+                <li>Big Event<br>The event which needs a long preparation,<br>such as exams, projects, meetings, etc.</li>
+            </ul><br>
+        </p>
+        <div id="c_btn">
+            <button class="btn btn-sm" type="button" onclick="javascript:location.href='{% url 'createSmallEvent' %}'">Small Event</button>&emsp;
+            <button class="btn btn-sm" type="button" onclick="javascript:location.href='{% url 'createBigEvent' %}'">Big Event</button>
+        </div>
+    </div>
+</body>
+
+</html>

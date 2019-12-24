@@ -1,0 +1,92 @@
+{% load static %} {% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Event Scheduler</title>
+    <!-- style -->
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/clean-blog.min.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'login' %}">Event Scheduler</a>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Sigh Up</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url({% static 'img/home-bg.jpg' %})">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="site-heading ">
+                        <h1>Event Scheduler</h1>
+                        <span class="subheading ">A Time-Management and Scheduling Calendar</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content-->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10" style="display: flex; align-items: center;">
+                <div class="post-preview">
+                    <p>&emsp;&emsp;Event Scheduler plans a user-friendly and effective schedule based on the user's preference. We consider more information about an event, such as preparation time, the required working hours, priority, etc. </p>
+                    <p>&emsp;&emsp;Besides, the daily completion rate of the events will be recorded so that you can improve your time utilization by personal statistics.</p>
+                </div>
+            </div>
+            <div class="mx-auto">
+                <form action="{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                    <h4 style="text-align: center;">Sign in</h4>
+                    Username<br><input type="text" name="username" required><br> Password
+                    <br><input type="password" name="password" required>
+                    <div style="text-align: right; font-size: 14px;"><a href="/forget_password_page/">Forgot password</a></div>
+                    <div style="margin-top: 10px; text-align: center;">
+                        <input class="btn" style="background-color: lightgray; padding: 5px 10px;" type="submit" value="Login">
+                    </div>
+                </form>
+                <div style="margin-top: 15px; text-align: center; font-size: 16px;">First time using? <a href="{% url 'register' %}">Sign up</a></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <hr>
+                    <p class="copyright text-muted ">Copyright &copy; NTU CSIE 2019</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- style -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/clean-blog.min.js' %}"></script>
+</body>
+
+</html>

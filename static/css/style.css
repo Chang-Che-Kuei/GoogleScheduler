@@ -1,0 +1,166 @@
+* {
+    font-family: 微軟正黑體;
+}
+
+
+/* intro content */
+
+#intro_content {
+    padding: 3% 20%;
+    line-height: 23px
+}
+
+#intro_content a {
+    color: black;
+    text-decoration: none;
+}
+
+.intro_center {
+    /* margin: 0% 10% */
+    text-align: center
+}
+
+
+/* form content */
+
+#form {
+    padding: 7% 40%;
+    line-height: 23px
+}
+
+
+/* content layout */
+
+#sidebar {
+    float: left;
+    width: 25%;
+    height: auto;
+    padding-top: 5%;
+    position: fixed;
+    text-align: center;
+}
+
+#topbar {
+    padding-top: 3%;
+    padding-right: 15%;
+    width: 70%;
+    float: right;
+    text-align: right;
+}
+
+#content {
+    width: 72%;
+    float: right;
+    text-align: left;
+}
+
+#content2 {
+    padding-top: 1%;
+    width: 70%;
+    float: right;
+    text-align: left;
+}
+
+
+/* sidebar */
+
+#headshot {
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+}
+
+a {
+    color: gray;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #FF9900;
+}
+
+
+/* table */
+
+.xxchecked {
+    text-decoration: line-through;
+}
+
+tr:hover {
+    background: #ddd;
+}
+
+
+/* content (biography) */
+
+#intro {
+    margin-bottom: -5px;
+}
+
+#education {
+    float: left;
+    width: 25%;
+    padding-bottom: 50px;
+    margin-bottom: -5%;
+}
+
+#experience {
+    float: left;
+    width: 70%;
+    padding-bottom: 50px;
+    margin-bottom: -5%;
+}
+
+#content h3 {
+    font-size: 22px;
+}
+
+#content h4 {
+    font-size: 19px;
+}
+
+#content p,
+li {
+    color: rgb(90, 90, 90);
+    line-height: 1.5;
+}
+
+ul {
+    list-style-type: circle;
+}
+
+
+/* content (photo & story) */
+
+#photo {
+    margin-top: -20px;
+}
+
+#p_lisgb {
+    width: 70%;
+}
+
+.center {
+    padding-left: 20%;
+    color: red;
+}
+
+#wish {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+
+/* content (lab) */
+
+#lab {
+    width: 80%;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.right {
+    text-align: right;
+}

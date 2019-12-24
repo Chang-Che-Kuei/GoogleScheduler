@@ -1,0 +1,189 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Setting</title>
+    <!-- style -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/component.css' %}">
+    <!-- js -->
+    <script>
+        function addRow(r) {
+            var table = document.getElementById("cantWork");
+            var i = r.parentNode.parentNode.rowIndex;
+            var row = table.insertRow(i + 1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            cell1.innerHTML = 'is from <input type="time" name="cantWorkStart" > to <input type="time" name="cantWorkEnd">&nbsp;';
+            cell2.innerHTML = '<a onclick="addRow(this)" href="javascript:void(0);">+</a>&nbsp;';
+            cell3.innerHTML = '<a onclick="deleteRow(this)" href="javascript:void(0);">-</a>';
+        }
+
+        function deleteRow(r) {
+            var i = r.parentNode.parentNode.rowIndex;
+            document.getElementById("cantWork").deleteRow(i);
+        }
+
+        function addRow2(r) {
+            var table = document.getElementById("valuedTime");
+            var i = r.parentNode.parentNode.rowIndex;
+            var row = table.insertRow(i + 1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            cell1.innerHTML = 'is from <input type="time" name="valuedStart" > to <input type="time" name="valuedEnd">&nbsp;';
+            cell2.innerHTML = '<a onclick="addRow2(this)" href="javascript:void(0);">+&nbsp;</a>';
+            cell3.innerHTML = '<a onclick="deleteRow2(this)" href="javascript:void(0);">-</a>';
+        }
+
+        function deleteRow2(r) {
+            var i = r.parentNode.parentNode.rowIndex;
+            document.getElementById("valuedTime").deleteRow(i);
+        }
+
+        function checkTime() {
+            // Working time: 1, Cant work time: 0, Valued time: 2
+            var arr = []
+            for (i = 0; i < 1440; i++) {
+                arr[i] = 0;
+            }
+
+            // Working Time
+            var workingStart = document.getElementById("workingStart").value;
+            var workingEnd = document.getElementById("workingEnd").value;
+            if (workingStart >= workingEnd) {
+                alert("Please check the working time.\nThe start time should be before the end time.");
+                return false;
+            }
+            var workingSL = workingStart.split(":");
+            var workingEL = workingEnd.split(":");
+            var workingSI = parseInt(workingSL[0]) * 60 + parseInt(workingSL[1]);
+            var workingEI = parseInt(workingEL[0]) * 60 + parseInt(workingEL[1]);
+            for (i = workingSI; i < workingEI + 1; i++) {
+                arr[i] = 1;
+            }
+
+            // Cant Work Time
+            var row1 = document.getElementById('cantWork').rows.length;
+            for (i = 0; i < row1; i++) {
+                var cantWorkStart = document.getElementById("cantWork").rows[i].cells[0].children[0].value;
+                var cantWorkEnd = document.getElementById("cantWork").rows[i].cells[0].children[1].value;
+                if (cantWorkStart >= cantWorkEnd) {
+                    alert("Please check the time period that cannot be scheduled.\nThe start time should be before the end time.");
+                    return false;
+                }
+                if ((cantWorkStart < workingStart) || (cantWorkEnd < workingStart) || (cantWorkStart > workingEnd) || (cantWorkEnd > workingEnd)) {
+                    alert("Please check the time period that cannot be scheduled.\nThe time period should be in the working hours.");
+                    return false;
+                }
+                var cantWorkSL = cantWorkStart.split(":");
+                var cantWorkEL = cantWorkEnd.split(":");
+                var cantWorkSI = parseInt(cantWorkSL[0]) * 60 + parseInt(cantWorkSL[1]) + 1;
+                var cantWorkEI = parseInt(cantWorkEL[0]) * 60 + parseInt(cantWorkEL[1]) - 1;
+                for (j = cantWorkSI; j < cantWorkEI + 1; j++) {
+                    arr[j] = 0;
+                }
+            }
+
+            // Valued Time
+            var row2 = document.getElementById('valuedTime').rows.length;
+            for (i = 0; i < row2; i++) {
+                var valuedStart = document.getElementById("valuedTime").rows[i].cells[0].children[0].value;
+                var valuedEnd = document.getElementById("valuedTime").rows[i].cells[0].children[1].value;
+                if (valuedStart >= valuedEnd) {
+                    alert("Please check the most valuable time range.\nThe start time should be before the end time.");
+                    return false;
+                }
+                if ((valuedStart < workingStart) || (valuedEnd < workingStart) || (valuedStart > workingEnd) || (valuedEnd > workingEnd)) {
+                    alert("Please check the most valuable time range.\nThe time range should be in the working hours.");
+                    return false;
+                }
+                var valuedSL = valuedStart.split(":");
+                var valuedEL = valuedEnd.split(":");
+                var valuedSI = parseInt(valuedSL[0]) * 60 + parseInt(valuedSL[1]);
+                var valuedEI = parseInt(valuedEL[0]) * 60 + parseInt(valuedEL[1]);
+                // alert("valued time: " + valuedStart + " - " + valuedEnd + "\n" + valuedSI + " " + valuedEI + "\n");
+
+                var msg = "";
+                for (j = valuedSI; j < valuedEI + 1; j++) {
+                    if (arr[j] == 0) {
+                        msg = "Please check the time period that cannot be scheduled and the most valuable time range. They cannot overlap.";
+                    } else {
+                        arr[j] = 2;
+                    }
+                }
+                if (msg != "") {
+                    alert(msg);
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div id="sidebar">
+        <a href="{% url 'home' %}"><img id="headshot" src="{{img.url}}" alt="headshot"></a><br>
+        <h1>{{user}}</h1><br>
+        <h3><a href="{% url 'profile' %}">Profile</a></h3>
+        <h3><a href="{% url 'summary' %}">Summary</a></h3>
+        <h3><a href="{% url 'setting' %}">Setting</a></h3>
+    </div>
+
+    <div id="topbar">
+        <p><a href="{% url 'login' %}">Sign Out</a></p>
+    </div>
+
+    <div id="content2">
+        <br>
+        <p>To arrange a personalized schedule, we need your time preference settings:</p><br>
+        <form action="" method="post" onsubmit="return checkTime()">
+            {% csrf_token %}
+            <ul>
+                <li>The working hours in a day is from <input type="time" name="workingStart" id="workingStart" value="10:00" required> to <input type="time" name="workingEnd" id="workingEnd" value="22:00" required></li>
+                <li>The time period that cannot be scheduled in working hours <br>
+                    <table id="cantWork">
+                        <tr>
+                            <td>is from <input type="time" name="cantWorkStart" value="12:00" required> to <input type="time" name="cantWorkEnd" value="13:00" required>&nbsp;</td>
+                            <td><a onclick="addRow(this)" href="javascript:void(0);">+</a>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>is from <input type="time" name="cantWorkStart" value="18:00" required> to <input type="time" name="cantWorkEnd" value="19:00" required>&nbsp;</td>
+                            <td><a onclick="addRow(this)" href="javascript:void(0);">+</a>&nbsp;</td>
+                            <td><a onclick="deleteRow(this)" href="javascript:void(0);">-</a></td>
+                        </tr>
+                    </table>
+                </li>
+                <li>The most valuable time range <br>
+                    <table id="valuedTime">
+                        <tr>
+                            <td> is from <input type="time" name="valuedStart" value="15:00" required> to <input type="time" name="valuedEnd" value="17:00" required>&nbsp;</td>
+                            <td><a onclick="addRow2(this)" href="javascript:void(0);">+</a>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>is from <input type="time" name="valuedStart" value="20:00" required> to <input type="time" name="valuedEnd" value="22:00" required>&nbsp;</td>
+                            <td><a onclick="addRow2(this)" href="javascript:void(0);">+</a>&nbsp;</td>
+                            <td><a onclick="deleteRow2(this)" href="javascript:void(0);">-</a></td>
+                        </tr>
+                    </table>
+                </li>
+                <li>The time gap between the two events is at least <input class="number" type="number" name="timeGap" min=0 step="5" value="20" required> minutes.
+                </li>
+                <li>The minimum duration for an event is <input class="number" type="number" name="duration" min=30 step="15" value="30" required> minutes.</li>
+                <li>The maximum number of events you want to deal with is <input class="number" type="number" name="numberOfEvent" min=3 value="15" required> in a day.</li>
+            </ul><br>
+            <div id="s_btn">
+                <input class="btn btn-sm" type="submit" value="Save">
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
